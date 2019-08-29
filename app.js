@@ -22,16 +22,34 @@ app.use(express.static('public'));
 app.use('', (req, res) => {
   res.render('index');
 });
+const SERVER_NAME = "Server :)";
 
 // Io setup
 io.on('connection', socket => {
-    socket.client.userName
     userList.push(`user${globalUserIndex}`);
     socket.client.userName = `user${globalUserIndex}`;
     globalUserIndex++;
   
   //Greeting message
-  socket.emit('greeting', {message: `Hello there is ${userList.length} poeple.`});
+  socket.emit('greeting', {
+    message: `Hello there is ${userList.length} poeple.`,
+    name: socket.client.userName,
+    user: SERVER_NAME
+  });
+
+  // Change name handler
+  socket.on('change name', (data) => {
+    
+    //Check for user duplicate
+    let result = _.find(userList, (value) => {
+      value === data.name 
+    })
+    if (result){
+      data.name += globalUserIndex;
+    }
+    socket.emit('message', {user: SERVER_NAME, message: `User "${socket.client.userName}" changed name to: "${data.name}"`});
+    socket.client.userName = data.name;
+  })
   
   //Pipe message to all ppl
   socket.on('message', (data) => {

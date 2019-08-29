@@ -1,11 +1,16 @@
 const socket = io('http://localhost');
 let user;
 let messageList = [];
+
+
 socket.on('greeting', data => {
-  messageList.push(data);
-  socket.emit('message', "costam");
-  // socket.emit('userNameChange', 'AdolfKittler');
+  // messageList.push(data);
+  addListElement(data);
+  // Get actual nickname from server
+  document.getElementById('userNameInput').value = data.name;
 });
+
+
 socket.on('message', data => {
   // console.log(data);
   // messageList.push(data);
@@ -18,11 +23,30 @@ document.getElementById('messageInput').addEventListener('keydown', messageEmitt
 
 
 function messageEmitter(e){
-  if(e.key === "Enter" || e.type === 'click'){
+  if(eventChecker(e)){
     let input =  document.getElementById('messageInput');
     socket.emit('message', input.value);
     input.value = '';
   }
+}
+
+// Change name handler
+document.getElementById('userNameInput').addEventListener('keydown', changeNameEmitter);
+document.getElementById('userNameButton').addEventListener('click', changeNameEmitter);
+
+function changeNameEmitter(e){
+  if(eventChecker(e)){
+    let input = document.getElementById('userNameInput');
+    socket.emit('change name', {name: input.value});
+  }
+}
+
+
+function eventChecker(event){
+  if(event.key === "Enter" || event.type === 'click'){
+    return true;
+  }
+  return false
 }
 
 
