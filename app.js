@@ -3,7 +3,8 @@ const app = express();
 // const cors = require('cors');
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-// const { message, setUserName, userNameOverload } = require('./socket-IO');
+
+const _ = require('lodash');
 
 // app.use(cors());
 
@@ -13,35 +14,37 @@ let userList = [];
 // Setup view engine
 app.set('view engine', 'ejs');
 
+// Setup for static files
+app.use(express.static('public'));
 
 
-
-app.get('/', (req, res) => {
+//Serve for out chat app
+app.use('', (req, res) => {
   res.render('index');
 });
 
 // Io setup
 io.on('connection', socket => {
-  if(!socket.client.userName){
+    socket.client.userName
     userList.push(`user${globalUserIndex}`);
     socket.client.userName = `user${globalUserIndex}`;
     globalUserIndex++;
-  }
-
   
+  //Greeting message
   socket.emit('greeting', {message: `Hello there is ${userList.length} poeple.`});
   
+  //Pipe message to all ppl
   socket.on('message', (data) => {
     socket.emit('message', {user: socket.client.userName, message: data});
   })
 
-  
-
-
+  //Disconnect socket handler
   socket.on('disconnect', () => {
-   userList = userList.filter((user) => {
-     return user !== socket.client.userName
-   })
+    // console.log('disconnect');
+    let tempUserList = _.remove(userList, (n) => {
+      n === socket.client.userName;
+    });
+    userList = tempUserList;
   })  
 })
 

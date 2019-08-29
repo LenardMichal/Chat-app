@@ -5,22 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+    span{
+      display: flex;
+      justify-content: space-between;
+      flex-flow: row nowrap;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
+  <div>
+    <ul id="chat">
+      
+    </ul>
+     <input id="messageInput" type='text'/>
+     <button id="sendMessage">Send!</button>
+  </div>
+
+
+  <!--  Scripts  -->
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const socket = io('http://localhost');
-    let user;
-    let messageList = [];
-    socket.on('greeting', data => {
-      console.log(data);
-      socket.emit('message', "costam");
-    });
-    socket.on('message', data => {
-      console.log(data);
-      messageList.push(data);
-      document.writeln(data.message);
-    });
-  </script>
+  <script src="/main.js"></script>
+  
 </body>
 </html>
