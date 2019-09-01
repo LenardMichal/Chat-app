@@ -14,7 +14,7 @@ app.use(express.static('public'));
 
 //Serve for out chat app
 app.use('', (req, res) => {
-  res.render('index');
+  res.render('index', {portNumber: process.env.PORT});
 });
 
 module.exports = app;

@@ -1,4 +1,4 @@
-const socket = io('http://localhost');
+const socket = io(`http://localhost${IO_PORT}`);
 let user;
 let messageList = [];
 
@@ -16,6 +16,13 @@ socket.on('message', data => {
   // messageList.push(data);
   addListElement(data);
 });
+
+socket.on('change name', data => {
+  document.getElementById('userNameInput').value = data.name;
+})
+
+
+
 // Send message handler
 
 document.getElementById('sendMessage').addEventListener('click', messageEmitter);

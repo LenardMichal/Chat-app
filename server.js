@@ -6,6 +6,6 @@ const ioHandler = require('./io/io-main')(io);
 
 
 
-server.listen(80);
+server.listen(process.env.PORT || 80);
 
 module.exports = server;
