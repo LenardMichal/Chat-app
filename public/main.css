@@ -1,0 +1,65 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+header{
+  width: 100;
+  height: 50px;
+  background-color: #23af00;
+  color: white;
+  text-align: center;
+  font-size: 2.5rem;
+  box-sizing: content-box;
+}
+
+
+.chatBox{
+  max-width: 900px;
+  width: 90%;
+  min-width: 400px;
+  position: relative;
+  margin: 0 auto;
+  display: grid;  
+  grid-template-columns: 70% 30%;
+}
+
+.chatBox__chat{
+  margin-top: 10px;
+  height: 80vh;
+  border: black 1px solid;
+  overflow-y: scroll;
+  grid-column: 1/3;
+  font-size: 1.5rem;
+}
+
+.chatBox__input {
+  height: 40px;
+  text-align: center;
+  background-color: white;
+  font-size: 2rem;
+}
+
+.chatBox__button {
+  background-color: #23af00;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  font-size: 2rem;
+}
+
+
+
+li{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+
+.changeNameBox {
+  position: absolute;
+  display: grid;
+  top: 60px;
+  left: 10px;
+}

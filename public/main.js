@@ -1,7 +1,4 @@
-const socket = io(`http://localhost${IO_PORT}`);
-let user;
-let messageList = [];
-
+const socket = io(`http://localhost:${IO_PORT}`);
 
 socket.on('greeting', data => {
   // messageList.push(data);
@@ -10,17 +7,29 @@ socket.on('greeting', data => {
   document.getElementById('userNameInput').value = data.name;
 });
 
-
 socket.on('message', data => {
-  // console.log(data);
-  // messageList.push(data);
   addListElement(data);
+  autoFocusHandler();
 });
 
 socket.on('change name', data => {
   document.getElementById('userNameInput').value = data.name;
 })
 
+function sendMetas(metas){
+  socket.emit('set metas', {color: metas.color, bgColor: metas.bgColor})
+};
+
+
+//Color change events
+let frontColorPicker = document.getElementById('frontColor')
+let bgColorPicker = document.getElementById('bgColor'); 
+
+frontColorPicker.addEventListener('change', e => sendMetas({color: frontColorPicker.value, bgColor: bgColorPicker.value}));
+bgColorPicker.addEventListener('change', e => sendMetas({color: frontColorPicker.value, bgColor: bgColorPicker.value}));
+// Default values for reload purposes.
+frontColorPicker.value = '#000000';
+bgColorPicker.value = '#ffffff';
 
 
 // Send message handler
@@ -56,6 +65,10 @@ function eventChecker(event){
   return false
 }
 
+// function storeResponds(e){
+
+// }
+
 
 
 function addListElement(data){
@@ -69,10 +82,38 @@ function addListElement(data){
   let author = document.createElement('span');
   author.textContent = data.user;
   el.append(author);
-
   
+  
+  //Adds some styling
+  if (data.meta){   
+     el.style.backgroundColor = data.meta.bgColor;
+     el.style.color = data.meta.color;
+  }
+
+  el.tabIndex = -1;
   list.appendChild(el);
+  // el.focus();
 }
 
 
 // document.getElementById('changeNickField')
+
+function autoFocusHandler() {
+  let currentContext = document.addEventListener('click', createLastFocus);
+  let changeNameInput = document.getElementById('userNameInput');
+  let list = document.getElementById('chat');
+  let messageInput = document.getElementById('messageInput');
+  
+  list.lastChild.focus();
+  if(currentContext === changeNameInput){
+    changeNameInput.focus();
+  }
+  if(currentContext === messageInput){
+    messageInput.focus();
+  }
+  
+}
+
+function createLastFocus (e){
+  return e.target;
+}
