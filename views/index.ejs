@@ -4,30 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Easy chat app</title>
   <link rel="stylesheet" href='/main.css' type="text/css">
   
 </head>
 <body>
   <header>Easy chat app</header>
-  <div class="changeNameBox">
-    <p>Your name</p>
-    <input type="text" id="userNameInput" class="changeNameBox__input">
-    <button id="userNameButton" class="changeNameBox__button">Change!</button>
+  <img src='/cog.svg' alt='cog icon' class="settings__icon" id="settingsIcon">
+
+  <div class="settings">
+    <div class="changeNameBox">
+      <p>Your name:</p>
+      <input type="text" id="userNameInput" class="changeNameBox__input">
+      <button id="userNameButton" class="changeNameBox__button">Change!</button>
+    </div>
+    <div class="changeColorBox">
+      <label for='frontColor'>Font color:</label>
+      <input type='color' id='frontColor'>
+      <label for="bgColor">Background color:</label>
+      <input type='color' id='bgColor'>
+    </div>
   </div>
-  <div class="changeColorBox">
-    <label for='frontColor'>Font color:</label>
-    <input type='color' id='frontColor'>
-    <label for="bgColor">Background color:</label>
-    <input type='color' id='bgColor'>
-  </div>
+
 
   <div class="chatBox">
     <ul id="chat" class="chatBox__chat"></ul>
      <input id="messageInput" type='text' class="chatBox__input" maxlength="100"/>
-     <button id="sendMessage" class="chatBox__button">Send!</button>
+     <button id="messageButton" class="chatBox__button">Send!</button>
   </div>
 
+  <div class="userListBox">
+    <h1 class="userListBox__title">User list</h1>
+    <ul id="usersList" class="userListBox__list"></ul>
+  </div>
+
+  <div class="iconBox" id="iconBox">
+      <img id="manIcon" src='/man.svg' class="iconBox__icon" alt="user icon">
+      <span id="userCounter" class="iconBox__counter"></span>
+  </div>
+
+  <div id="screenOverlapse"></div>
 
   <!--  Scripts  -->
   <script>

@@ -5,6 +5,10 @@ const _ = require('lodash');
 // Function return name
 
 exports.createUserName = (list, name, nameIndex) => {
+  if(!name){
+    name = 'user';
+  }
+  
   let findResult  = _.find(list, (listedName) => {
     return listedName === name
   });

@@ -3,63 +3,209 @@
   padding: 0;
 }
 
-header{
-  width: 100;
-  height: 50px;
+body{
+  min-width: 350px;
+}
+
+header {
+  width: 100vw;
+  height: 10vh;
+  min-height: 50px;
   background-color: #23af00;
   color: white;
   text-align: center;
-  font-size: 2.5rem;
-  box-sizing: content-box;
+  font-size: 3rem;
+}
+
+.iconBox {
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+  display: inline-block;
+}
+
+.iconBox:hover{
+  cursor: pointer;
+}
+
+.iconBox__icon {
+  height: 1.5rem;
+}
+
+.iconBox__icon--active {
+  filter: invert(100%) drop-shadow(0 0 5px green);
 }
 
 
-.chatBox{
-  max-width: 900px;
-  width: 90%;
-  min-width: 400px;
-  position: relative;
-  margin: 0 auto;
-  display: grid;  
-  grid-template-columns: 70% 30%;
-}
-
-.chatBox__chat{
-  margin-top: 10px;
-  height: 80vh;
-  border: black 1px solid;
-  overflow-y: scroll;
-  grid-column: 1/3;
-  font-size: 1.5rem;
-}
-
-.chatBox__input {
-  height: 40px;
-  text-align: center;
-  background-color: white;
+.iconBox__counter {
   font-size: 2rem;
 }
 
+.chatBox {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  box-sizing: border-box;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.chatBox__chat {
+  grid-column: 1/3;
+  overflow-y: scroll;
+  height: 75vh;
+  margin-top: 5vh;
+  font-size: 1.5rem;
+  
+}
+
 .chatBox__button {
+  bottom: 0;
+  height: 9vh;
   background-color: #23af00;
   color: white;
   border: none;
   border-radius: 2px;
   font-size: 2rem;
+  cursor: pointer;
 }
 
+.chatBox__input {
+  height: 40px;
+  text-align: center;
+  background-color: rgb(189, 189, 189);
+  font-size: 1.5rem;
+  height: 9vh;
+}
 
+.userListBox {
+  display: none;
+  position: absolute;
+  top: 10vh;
+  width: 40vw;
+  right: 0;
+  background-color: white;
+  z-index: 3;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.userListBox li {
+  padding-left: 10px;
+}
+
+.userListBox__title {
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid gray;
+}
+
+.settings {
+  display: none;
+  position: absolute;
+  top: 10vh;
+  left: 0;
+  width: 40vw;
+  height: 80vh;
+  background-color: white;
+  z-index: 3;
+}
+
+.settings__icon {
+  position: absolute;
+  top: 3vh;
+  left: 3vw;
+}
+
+.settings__icon:hover {
+  cursor: pointer;
+}
 
 li{
   display: flex;
   justify-content: space-between;
   width: 100%;
+  border-radius: 4px;
+}
+li > span {
+  padding-left: 10px;
 }
 
+#screenOverlapse {
+  display: none;
+  height: 90vh;
+  width: 100vw;
+  position: absolute;
+  top: 10vh;
+  background-color: rgba(140, 140, 140, 0.8);
+  z-index: 2;
+}
 
 .changeNameBox {
-  position: absolute;
   display: grid;
+  grid-template-columns: 40% 60%;
   top: 60px;
   left: 10px;
+  padding-bottom: 40px;
+  row-gap: 10px;
+  padding-top: 10px;
+} 
+
+.changeNameBox__input {
+  margin: 0 10px;
+  text-align: center;
+}
+
+.changeNameBox__button {
+  grid-column: 1/3;
+  margin: 0 10px;
+}
+
+.changeColorBox {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  row-gap: 10px;
+  margin: 0 5px;
+}
+  
+
+
+@media (min-width: 900px){
+
+  body {
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+  }
+
+  header{
+    grid-column: 1/4;
+  }
+
+  .settings__icon {
+    display: none;
+  }
+
+  .chatBox__chat{
+    border: black 1px solid;
+  }
+
+  .chatBox {
+    grid-column: 2/3;
+  }
+
+  .settings {
+    display: inline-block;
+    grid-column: 1/2;
+    margin-top: 5vh;
+    max-width: 200px;
+  }
+
+  .userListBox{
+    display: inline-block;
+    grid-column: 3/4;
+    max-width: 300px;
+    border: 1px solid gray;
+    margin-top: 5vh;
+  }
+  
 }

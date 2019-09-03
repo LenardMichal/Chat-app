@@ -1,7 +1,6 @@
 // To do here:
 // refactor it;
 
-const _ = require('lodash');
 const { createUserName, removeUserName } = require('./io-utils');
 
 
@@ -11,12 +10,15 @@ const { createUserName, removeUserName } = require('./io-utils');
 module.exports = (io) => {
   io._globalUserIndex = 1;
   io._userList = [];
+
   io.on('connection', socket => {
-    io._userList.push(`user${io._globalUserIndex}`);
-    socket._username = `user${io._globalUserIndex}`;
+    let tempUserName = createUserName(io._userList, 'user', io._globalUserIndex);
+    io._userList.push(tempUserName);
+    socket._username = tempUserName;
     io._globalUserIndex++;
     
     
+    socket.join('any room');
     //message generator
     let greetingMessage = `Hello there is one person`
     if(io._userList.length > 1){
@@ -32,6 +34,8 @@ module.exports = (io) => {
         bgColor: process.env.BG_COLOR
       }
     });
+
+    io.emit('send list', io._userList);
     
     // Change name handler
     socket.on('change name', (data) => {
@@ -39,16 +43,27 @@ module.exports = (io) => {
         //Checks for name duplicates and push it to array;
         let newName  = createUserName(io._userList, data.name, io._globalUserIndex);
         io._userList.push(newName);
-        io.emit('message', {user: process.env.SERVER_NAME, message: `User "${socket._username}" changed name to: "${newName}"`});
+        io.emit('message', {
+          user: process.env.SERVER_NAME,
+          message: `User "${socket._username}" changed name to: "${newName}"`,
+          meta: {
+            color: process.env.COLOR,
+            bgColor: process.env.BG_COLOR
+          }
+      });
         removeUserName(io._userList, socket._username);
-        
+        socket.emit('send list', io._userList);
         socket.emit('change name', {name: newName});
         socket._username = newName;
       } else {
         socket.emit('message', {
           user: process.env.SERVER_NAME,
-          message: "You already have that nickname!"
-          });
+          message: "You already have that nickname!",
+          meta: {
+            color: process.env.COLOR,
+            bgColor: process.env.BG_COLOR
+          }
+        });
       }
     })
     
@@ -69,9 +84,15 @@ module.exports = (io) => {
     socket.on('disconnect', () => {
       // console.log('disconnect');
       removeUserName(io._userList, socket._username);
-      io.emit('message', {user: process.env.SERVER_NAME, message: `User "${socket._username}" exit.`})
+      io.emit('message', {
+        user: process.env.SERVER_NAME,
+        message: `User "${socket._username}" exit.`,
+        meta: {
+          color: process.env.COLOR,
+          bgColor: process.env.BG_COLOR
+        }
+      });
+      socket.emit('send list', io._userList);
     })  
   })
 }
-
-
